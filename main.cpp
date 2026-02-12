@@ -7,8 +7,8 @@ void insert(int num, int &heap, int firstEmpty);
 
 int main () {
 
-  int heap[100];
-  int firstEmpty = 0;
+  int* heap = new int[100];
+  int* firstEmpty = heap;
   
   bool running = true;
 
@@ -23,7 +23,7 @@ int main () {
       cout << "Adding..." << endl;
 
       //Add
-
+      
       cout << "Done" << endl << endl;
     }
     else if (action == "READ" || action == "r") {
@@ -64,30 +64,66 @@ int main () {
   return 0;
 }
 
-int getParent(int index) { return floor( (index - 1) / 2); }
-int getRightChild(int index) { return 2 * index + 2; }
-int getLeftChild(int index) { return 2 * index + 1; }
+int* getParent(int* index) { return floor( (index - 1) / 2); }
+int* getRight(int* index) { return 2 * index + 2; }
+int* getLeft(int* index) { return 2 * index + 1; }
 
-void swap(int i1, int i2, int &heap) {
+void swap(int* i1, int* i2) {
 
-  int temp = heap[i1];
-  heap[i1] = heap[i2];
-  healp[i2] = temp;
+  int temp = *i1;
+  *i1 = *i2;
+  *i2 = temp;
 }
 
-void insert(int num, int &heap, int firstEmpty) {
+void swapR(int i) { swap(i, getRight(i)); }
+void swapL(int i) { swap(i, getLeft(i)); }
+void swapP(int i) { swap(i, getParent(i)); }
 
-  heap[firstEmpty] = num;
-  int i = firstEmpty;
+void insert(int num, int* heap, int* i) {
+
+  *i = num;
   
-  while (newI = getParent(i); heap[newI] < num) {
+  while (getParent(i) < num) {
 
     if (i = 0) { return; }
     
-    swap(i, getParent(i));
-    i = newI;
-    newI = getParent(i);
+    swapP(i);
+    i = getParent(i);
   }
 }
 
-void delete(int num,
+void del(int num, int* heap, int* i) {
+
+  cout << heap[0] << endl;
+
+  swap(0, firstEmtpy - 1);
+  delRec(0, heap);
+}
+
+void delRec(int *i) {
+
+  if (*i > *getRight(i) && *i > *getLeft(i)) { return; }
+
+  else if (*i > *getRight(i)) { swapR(i); delRec(getRight(i)); }
+
+  else if (*i > *getLeft(i)) { swapL(i); delRec(getLeft(i)); }
+
+  else { cout << "Something went wrong..." << endl; return }
+}
+
+void print(int* i, int indent) {
+
+  if (getRight(i) == NULL && getLeft(i) == NULL) {
+
+    for (int j = indent; j != 0; j--) { cout << j; }
+    cout << "|" << *i << endl;
+  }
+
+  else {
+
+    print(getRight(i), indent + 1);
+    print(getLeft(i), indent + 1);
+  }
+}
+
+  
