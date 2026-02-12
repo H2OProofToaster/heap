@@ -3,7 +3,19 @@
 
 using namepsace std;
 
-void insert(int num, int &heap, int firstEmpty);
+int* getParent(int* index);
+int* getRight(int* index);
+int* getLeft(int* index);
+
+void swap(int* i1, int* i2);
+void swapR(int* i);
+void swapL(int* i);
+void swapP(int* i);
+
+void insert(int num, int* i);
+void del(int* i, int* heap);
+void delRec(int* i);
+void print(int* i, int indent = 0);
 
 int main () {
 
@@ -23,6 +35,11 @@ int main () {
       cout << "Adding..." << endl;
 
       //Add
+      cout << "What number? ";
+      int num;
+      cin >> num;
+      insert(num, firstEmpty);
+      firstEmpty = firstEmpty + 1;
       
       cout << "Done" << endl << endl;
     }
@@ -39,6 +56,8 @@ int main () {
       cout << "Deleting..." << endl;
 
       //Delete
+      del(firstEmpty, heap);
+      firstEmpty = firstEmpty - 1;
 
       cout << "Done" << endl << endl;
     }
@@ -47,6 +66,7 @@ int main () {
       cout << "Printing..." << endl;
 
       //Print
+      print(heap);
 
       cout << "Done" << endl << endl;
     }
@@ -75,11 +95,11 @@ void swap(int* i1, int* i2) {
   *i2 = temp;
 }
 
-void swapR(int i) { swap(i, getRight(i)); }
-void swapL(int i) { swap(i, getLeft(i)); }
-void swapP(int i) { swap(i, getParent(i)); }
+void swapR(int* i) { swap(i, getRight(i)); }
+void swapL(int* i) { swap(i, getLeft(i)); }
+void swapP(int* i) { swap(i, getParent(i)); }
 
-void insert(int num, int* heap, int* i) {
+void insert(int num, int* i) {
 
   *i = num;
   
@@ -92,12 +112,12 @@ void insert(int num, int* heap, int* i) {
   }
 }
 
-void del(int num, int* heap, int* i) {
+void del(int* i, int* heap) {
 
   cout << heap[0] << endl;
 
-  swap(0, firstEmtpy - 1);
-  delRec(0, heap);
+  swap(0, i - 1);
+  delRec(heap);
 }
 
 void delRec(int *i) {
