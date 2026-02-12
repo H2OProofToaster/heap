@@ -1,7 +1,8 @@
-#inqlcude <iostream>
-#inlcude <string>
+#include <iostream>
+#include <string>
+#include <cmath>
 
-using namepsace std;
+using namespace std;
 
 int* getParent(int* index);
 int* getRight(int* index);
@@ -30,7 +31,7 @@ int main () {
     string action;
     cin >> action;
 
-    if (action == "ADD" || action == "a") {
+    if ( (action == "ADD") ||(action == "a") ) {
 
       cout << "Adding..." << endl;
 
@@ -43,7 +44,7 @@ int main () {
       
       cout << "Done" << endl << endl;
     }
-    else if (action == "READ" || action == "r") {
+    else if ( (action == "READ") || (action == "r") ) {
 
       cout << "Reading..." << endl;
 
@@ -51,7 +52,7 @@ int main () {
 
       cout << "Done" << endl << endl;
     }
-    else if (action == "DELETE" || action == "d") {
+    else if ( (action == "DELETE") || (action == "d") ) {
 
       cout << "Deleting..." << endl;
 
@@ -61,7 +62,7 @@ int main () {
 
       cout << "Done" << endl << endl;
     }
-    else if (action == "PRINT" || action == "p") {
+    else if ( (action == "PRINT") || (action == "p") ) {
 
       cout << "Printing..." << endl;
 
@@ -70,7 +71,7 @@ int main () {
 
       cout << "Done" << endl << endl;
     }
-    else if (action == "QUIT" || action = "q") {
+    else if ( (action == "QUIT") || (action == "q") ) {
 
       cout << "Quitting..." << endl;
 
