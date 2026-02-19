@@ -11,7 +11,8 @@ struct Heap {
   int nextEmpty = 0;
 
   Heap() { for (int i = 0; i < 100; i++) { data[i] = 0; } }
-
+  ~Heap() { delete data; }
+  
   int getParent(int index) { return floor( (index - 1) / 2); }
   int getRight(int index) { return 2 * index + 2; }
   int getLeft(int index) { return 2 * index + 1; }
