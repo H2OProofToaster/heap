@@ -34,7 +34,7 @@ struct Heap {
 
     while (data[getParent(i)] < num) {
 
-      if (i == 0) { nextEmpty++; return; }
+      if (i == 0) { if (nextEmpty != 100) { nextEmpty++; return; } }
 
       swapP(i);
       i = getParent(i);
@@ -48,43 +48,39 @@ struct Heap {
     cout << data[0] << endl;
 
     swap(0, nextEmpty - 1);
+    if (nextEmpty != 0) { nextEmpty--; }
     delRec(0);
-    nextEmpty --;
   }
 
   void delRec(int i) {
 
-    //Bigger than both children
-    if (data[i] > data[getRight(i)] && data[i] > data[getLeft(i)]) {}
+    int left = getLeft(i);
+    int right = getRight(i);
 
-    //Smaller than right
-    else if (data[i] < data[getRight(i)]) { swapR(i); delRec(getRight(i)); }
+    if (left >= nextEmpty) { return; } //No children
 
-    //Smaller than left
-    else if (data[i] < data[getLeft(i)]) { swapL(i); delRec(getLeft(i)); }
+    if (right >= nextEmpty) { //Only left child
 
-    else { cout << "Something went wrong..." << endl; }
+      if (data[left] > data[i]) { swapL(i); delRec(left); } //Left child is bigger
+      return;
+    }
+
+    int biggerChild = (data[left] > data[right]) ? left: right;
+    if (data[biggerChild] > data[i]) { swap(i, biggerChild); delRec(biggerChild); }
   }
 
   void print(int i = 0, int indent = 0) {
 
-    //Leaf
-    if (data[getRight(i)] == 0 && data[getLeft(i)] == 0) {
+    if (i >= nextEmpty) { return; }
 
-      for (int j = indent; j != 0; j--) { cout << "\t"; }
-      if (data[i] < 10) { cout << 0; }
-      if (data[i] != 0) { cout << data[i] << endl; }
-    }
+    print(getRight(i), indent + 1);
 
-    else {
+    for (int j = 0; j < indent; j++) { cout << "\t"; }
 
-      print(getRight(i), indent + 1);
+    if (data[i] < 10 && data[i] != 0) { cout << "0"; }
+    if (data[i] != 0) { cout << data[i] << endl; }
 
-      for (int j = indent; j != 0; j--) { cout << "\t"; }
-      cout << data[i] << endl;
-
-      print(getLeft(i), indent + 1);
-    }
+    print(getLeft(i), indent + 1);
   }
 };
 
@@ -123,6 +119,7 @@ int main () {
       ifstream readFile(fileName);
       if (readFile.is_open()) {
 
+	int v;
 	while (readFile >> v) { heap->insert(v); }
       }
       readFile.close();
